@@ -1,4 +1,5 @@
 var Users=require('../models/users');
+var jsonWebToken = require('jsonwebtoken');
 module.exports.create = function(request,response){
 var user = new Users({
   name:request.body.name,
@@ -12,12 +13,10 @@ module.exports.login = function(request,response){
       if (err) throw err;
       if(result.length>0)
       {
-        result[0].name="pulkit";
-        result.save(function (err) {
-   // embedded comment with id `my_id` removed!
-});
-        loggedIn=true;
-        response.send("logged in");
+        var token = jsonWebToken.sign({name:request.body.name,password:request.body.password},"pulkit",{
+          expiresIn: 144000 // expires in 24 hours
+        });
+        response.send(token);
       }
       else {
       response.send("invalid name or password");
