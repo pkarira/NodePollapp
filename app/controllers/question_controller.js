@@ -1,25 +1,38 @@
-var Question=require("../models/question")
+var Question=require("../models/questions")
 
 module.exports.add=function(req,res)
 {
   var question=new Question({
-    text:req.body.text;
-    choices=req.body.choices;
+    text:req.body.text,
+    choices:req.body.choices
   });
-  question.save();
+  question.save(function(err){
+		if(err){
+			console.log('error in forming');
+		}else{
+			console.log('send');
+		}
+	});
   res.send("saved");
 }
 module.exports.getAll=function(req,res)
 {
 Question.find({},function(err,docs)
 {
-  res.send("saved");
+  res.send(docs);
 });
 }
-module.exports.votes=function(req,res)
+module.exports.vote=function(req,res)
 {
-Question.findOne({_id:req.body.id}).populate('').exec(function(err,question)
-{
-
-});
+Question.update(
+      {_id: req.body.question_id, 'choices._id': req.body.choice_id},
+      {'$inc': {
+          'choices.$.votes': 1
+      }},
+      function(err, numAffected) {
+        if(err)
+        res.send("error");
+        else
+        res.send("done");//59d51979b44a715e5eb8a4be//59d51979b44a715e5eb8a4c0
+      });
 }
