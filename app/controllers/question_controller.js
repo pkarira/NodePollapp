@@ -1,5 +1,8 @@
-var Question=require("../models/questions")
+var Question=require("../models/questions");
+var Image=require("../models/imageupload");
 var jsonWebToken = require('jsonwebtoken');
+var fs = require('fs');
+
 function tokenVerification(token)
 {
   var s;
@@ -33,6 +36,27 @@ module.exports.add=function(req,res)
 		}
 	});
   res.send("saved");
+}else
+res.send(verification)
+}
+module.exports.image=function(req,res)
+{
+  verification=tokenVerification(req.headers['x-access-token'])
+  if(verification==="Authenticated")
+  {
+    console.log(req.file.path);
+    var image=new Image({
+    data : fs.readFileSync(req.file.path),
+    contentType : 'image/png'
+  });
+    image.save(function(err){
+      if(err){
+        console.log('error in image upload');
+      }else{
+        console.log('send');
+      }
+    });
+    res.send("saved");
 }else
 res.send(verification)
 }
