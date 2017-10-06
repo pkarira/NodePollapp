@@ -14,14 +14,13 @@ var url = "mongodb://127.0.0.1:27017/pulkit";
 var database = require('../app/models/database');
 // database.connectToServer( function( err ) {
 // } );
+app.set('view engine','ejs');
 app.listen(8081,'127.0.0.1');
 //app.use(multer({dest:'./uploads/'}).single('photo'));
-app.get('/polls/home',function(request,response)
-{
-response.send("successful");
-});
+app.get('/polls/home',questions.home);
 app.post('/polls/register',jsonParser,users.create);
 app.post('/polls/login',jsonParser,users.login);
+app.get('/polls/login',jsonParser,users.getLogin);
 app.post('/polls/questions/add',jsonParser,questions.add);
 app.post('/polls/addimage',upload.single('image'),questions.image);
 app.get('/polls/questions/all',jsonParser,questions.getAll);

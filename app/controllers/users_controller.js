@@ -8,6 +8,9 @@ var user = new Users({
 user.save();
 response.send("registered");
 };
+module.exports.getLogin = function(request,response){
+response.render("login");
+};
 module.exports.login = function(request,response){
   Users.find({name:request.body.name,password:request.body.password},function(err, result) {
       if (err) throw err;

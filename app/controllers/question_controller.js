@@ -62,13 +62,14 @@ res.send(verification)
 }
 module.exports.getAll=function(req,res)
 {
-  verification=tokenVerification(req.headers['x-access-token'])
+  verification="Authenticated"//tokenVerification(req.headers['x-access-token'])
   console.log(verification)
   if(verification==="Authenticated")
   {
 Question.find({},function(err,docs)
 {
-  res.send(docs);
+  res.render('question',{questions:docs});
+  // res.send(docs);
 });
 }
 else
@@ -92,4 +93,8 @@ Question.update(
       });
 }else
 res.send(verification)
+}
+module.exports.home=function(req,res)
+{
+  res.render('question');
 }
