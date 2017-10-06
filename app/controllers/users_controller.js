@@ -11,6 +11,9 @@ response.send("registered");
 module.exports.getLogin = function(request,response){
 response.render("login");
 };
+module.exports.register = function(request,response){
+response.render("signup");
+};
 module.exports.login = function(request,response){
   Users.find({name:request.body.name,password:request.body.password},function(err, result) {
       if (err) throw err;
@@ -19,7 +22,8 @@ module.exports.login = function(request,response){
         var token = jsonWebToken.sign({name:request.body.name,password:request.body.password},"pulkit",{
           expiresIn: 144000 // expires in 24 hours
         });
-        response.send(token);
+        response.cookie('auth',token);
+        response.send('ok');
       }
       else {
       response.send("invalid name or password");

@@ -62,7 +62,7 @@ res.send(verification)
 }
 module.exports.getAll=function(req,res)
 {
-  verification="Authenticated"//tokenVerification(req.headers['x-access-token'])
+  verification=tokenVerification(req.cookies.auth)
   console.log(verification)
   if(verification==="Authenticated")
   {
