@@ -2,9 +2,19 @@
 <html>
 <body bgcolor="#12B9F3">
 
-<h1><font color="white" size="20" style="bold">Welcome</font></h1>
+<h1><font color="white" size="20" style="bold">POLLING</font></h1>
 
-<p><font color="white" size="20" style="bold">This is some shit!</font></p>
+<u1><font color="white" size="20" style="bold">
+<% questions.forEach(function(question){ %>
+  <li><%= question.text %></li>
+  <% question.choices.forEach(function(choice){ %>
+  <li><%= choice.text %><li>
+  <li><%= choice.votes %><li>
+  <%});%>
+<%});%>
+
+</font>
+</u1>
 
 </body>
 </html>

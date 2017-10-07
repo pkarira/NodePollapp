@@ -9,16 +9,19 @@ var users = require('../app/controllers/users_controller');
 var questions = require('../app/controllers/question_controller');
 var multer = require('multer');
 var upload = multer({ dest: '../uploads' });
+var env = process.env.NODE_ENV || 'development';
+var config = require("../config")[env];
 //sudo systemctl start mongodb
 //sudo systemctl status mongodb
+//mongo --port 27017 -u "raman" -p "raman" --authenticationDatabase "pulkit"
 var url = "mongodb://127.0.0.1:27017/pulkit";
 var database = require('../app/models/database');
-var cookieParser = require('cookie-parser')
+var cookieParser= require('cookie-parser')
 app.use(cookieParser())
 // database.connectToServer( function( err ) {
 // } );
 app.set('view engine','ejs');
-app.listen(8081,'127.0.0.1');
+app.listen(config.server.port,config.server.host);
 //app.use(multer({dest:'./uploads/'}).single('photo'));
 app.get('/polls/home',questions.home);
 app.post('/polls/register',urlParser,users.create);
